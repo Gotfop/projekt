@@ -1,0 +1,31 @@
+{% extends 'first/base.html' %}
+{% block title %}tomat_list
+        {% endblock %}
+{% block content %}
+<table>
+    <tr>
+        <th>sort</th>
+        <th>color</th>
+        <th>weight</th>
+        <th>price</th>
+    </tr>
+    {%for object in object_list%}
+    <tr>
+
+        <td>{%firstof object.sort "Не указано"%}</td>
+        <td>{{object.color}}</td>
+        <td>{{object.weight}}</td>
+        <td>{{object.price}}</td>
+        <td>
+            <a href="{%url 'detailtomat' pk=object.id%}">Подробнее</a>
+        </td>
+        <td>
+            <a href="{%url 'deletetomat' pk=object.id%}">Удалить</a>
+        </td>
+    </tr>
+    {%endfor%}
+</table>
+<a href="{%url 'createtomat'%}">
+<button type="button">Добавить</button>
+</a>
+{% endblock %}

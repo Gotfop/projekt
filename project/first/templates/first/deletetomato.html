@@ -1,0 +1,7 @@
+<form method="post">
+    {%csrf_token%}
+    <button type="submit">Да подтвердить</button>
+    <a href="{%url 'list'%}">
+        <button type="button">Отмена</button>
+    </a>
+</form>

@@ -1,0 +1,9 @@
+{% extends 'first/base.html' %}
+{% block title %}tomato
+        {% endblock %}
+{% block content %}
+<h1>Цвет {{object.color}}</h1>
+<h2>Цена {{object.price}}</h2>
+<img src="{{object.photo.url}}" alt="">
+
+{% endblock %}
