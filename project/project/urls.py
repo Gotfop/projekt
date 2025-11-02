@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from first import views
-from first.views import TomatoListView, TomatView, CreateTomatView, DeleteTomatView, CreateOderView
+from first.views import TomatoListView, TomatView, CreateTomatView, DeleteTomatView, CreateOderView, api_search
 from django.conf import settings
 
 
@@ -33,7 +33,8 @@ urlpatterns = [
     path('detailtomat/<int:pk>', TomatView.as_view(),name='detailtomat'),
     path('createtomat/',CreateTomatView.as_view(),name='createtomat'),
     path('deletetomat/<int:pk>',DeleteTomatView.as_view(),name='deletetomat'),
-    path('createoder', CreateOderView.as_view(), name='createoder')
+    path('createoder', CreateOderView.as_view(), name='createoder'),
+    path('api/search',api_search)
 
 ]
 if settings.DEBUG:

@@ -5,6 +5,9 @@ from django.views.generic import ListView, DetailView, View, CreateView, DeleteV
 from django.urls import reverse_lazy
 from first.models import Tomat, Oder
 from .forms import OderForm
+from django.views.decorators.csrf import csrf_exempt
+from .utils import generate_number
+import json
 
 
 # Create your views here.
@@ -75,3 +78,19 @@ class CreateOderView(CreateView):
     template_name = 'first/oder_form.html'
     form_class = OderForm
     success_url = reverse_lazy('list')
+    def get_initial(self):
+        i_n = super().get_initial()
+        i_n['number_order'] = generate_number()
+        return i_n
+
+@csrf_exempt
+def api_search(request):
+
+    text = request.GET.get('search')
+    res = Tomat.objects.filter(color__contains = text)
+    data = list(res.values())
+
+
+
+    
+    return JsonResponse(data,safe = False)

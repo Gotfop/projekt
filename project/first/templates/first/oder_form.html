@@ -4,7 +4,75 @@
 {% block content %}
 <form method="post">
     {%csrf_token%}
-    {{form.as_p}}
+    {%if form.errors%}
+    {{form.errors}}
+    {%endif%}
+    <p>
+    <label for="{{form.number_order.id_for_label}}">Номер заказа:</label>
+    {{form.number_order}}
+  </p>
+  <p>
+    <label for="{{form.client_id.id_for_label}}">Заказчик:</label>
+    {{form.client_id}}
+    
+    
+  </p>
+  <p>
+    {{form.tomats}}
+  </p>
+  <p>Товар:
+    <div id="selected_tomat"></div>
+    <input type="text" id="search_input">
+    <button id="search_button">Найти</button>
+  </p>
+  <div id="idtomat">
+  </div>                                         
     <button type="submit">Добавить</button>
 </form>
+{% endblock %}
+{%block java_script%}
+<script>
+  const onSelect = (id_tomat,text) => {
+    const selected_tomat = document.querySelector('#selected_tomat')
+    const div = document.createElement('div');
+    const label = Object.assign(document.createElement('label'),{for:`id_tomats_${id_tomat}`,innerHTML:text });
+    div.append(label);
+    selected_tomat.append(div);
+    const input = Object.assign(document.createElement('input'),{
+      type:"checkbox", name:"tomats", value:id_tomat, id:`id_tomats_${id_tomat}`
+    });
+    label.prepend(input);
+  }
+    const button = document.querySelector("#search_button")
+    button.addEventListener('click', (event) => {
+        event.preventDefault();
+        console.log('клик');
+        const search_text = document.querySelector('#search_input').value;
+        if (search_text) {
+          fetch(`/api/search?search=${search_text}`)
+          .then(response => response.json())
+          .then(data => {
+            if (!data) {return}
+            console.log(data);
+                const div = document.querySelector('#idtomat');
+                div.innerHTML = '';
+                for (let i = 0; i < data.length; i++){
+                const tomat = document.createElement('p');
+                const button = document.createElement('button');
+                button.addEventListener('click', (event) => {
+                  event.preventDefault();
+                  onSelect(data[i].id,`${data[i].color}   ${data[i].sort}`);
+                });
+                button.textContent = 'Добавить'
+                tomat.textContent = `${data[i].color}   ${data[i].sort}`;
+                div.append(tomat);
+                tomat.append(button);}
+            }); 
+        }    
+    })
+
+</script>
+
+
+
 {% endblock %}

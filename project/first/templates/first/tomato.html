@@ -4,6 +4,8 @@
 {% block content %}
 <h1>Цвет {{object.color}}</h1>
 <h2>Цена {{object.price}}</h2>
+{%if object.photo%}
 <img src="{{object.photo.url}}" alt="">
+{%endif%}
 
 {% endblock %}
